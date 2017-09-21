@@ -166,26 +166,29 @@ class PokerGame:
             player.hand = []
             player.hand_value = 0
 
+    def adding_players(self, game):
+        while True:
+            try:
+                num_players = int(input('how many human players will be playing the game?'))
+                break
+            except ValueError:
+                print('The number of players needs to be an integer!')
+        for player in range(1, num_players + 1):
+            print('what is the name of player', player, '?')
+            player_name = input('>>>')
+            while True:
+                try:
+                    player_chips = int(input('with how many chips will he start?'))
+                    break
+                except ValueError:
+                    print('The number of chips needs to be an integer!')
+            game.add_player(player_name, player_chips)
+
 
 def main():
     print('Welcome to the Poker Game, where you can try your luck against friends and/or the computer.')
     game = PokerGame()
-    while True:
-        try:
-            num_players = int(input('how many human players will be playing the game?'))
-            break
-        except ValueError:
-            print('The number of players needs to be an integer!')
-    for player in range(1, num_players+1):
-        print('what is the name of player', player, '?')
-        player_name = input('>>>')
-        while True:
-            try:
-                player_chips = int(input('with how many chips will he start?'))
-                break
-            except ValueError:
-                print('The number of chips needs to be an integer!')
-        game.add_player(player_name, player_chips)
+    game.adding_players(game)
 
     while True:
         print('its time to start!!')
