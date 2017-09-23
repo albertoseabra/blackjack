@@ -24,10 +24,10 @@ class Deck:
                 self.deck.append(Card(value, suit))
 
     def deal(self, player):
-        # deals a card, updates player hand and the player hand value, and removes the card from the deck
+        # deals a card, updates player hand and removes the card from the deck
         card_dealt = random.choice(self.deck)
         player.hand.append(card_dealt)
-        player.hand_value += self.card_value(card_dealt)
+        self.calculate_hand_value(player)
         self.deck.remove(card_dealt)
 
     def card_value(self, card):
@@ -38,6 +38,17 @@ class Deck:
             return 11
         else:
             return 10
+
+    def calculate_hand_value(self, player):
+        player.hand_value = 0
+        for card in player.hand:
+            player.hand_value += self.card_value(card)
+
+        # if the value of the hand is bigger than 21 and the player has an Ace on hand the value of the Ace is
+        # just 1 instead of the usual 11, we do that by subtracting 10 to the value of the player hand
+        for i, card in enumerate(player.hand):
+            if ('A' in player.hand[i].value) and (player.hand_value > 21):
+                player.hand_value -= 10
 
 
 class Player:
@@ -145,7 +156,6 @@ class PokerGame:
 
         if best_hand == 0:
             print('Everyone went over 21, house wins!!')
-
         else:
             if self.house_turn(best_hand):
                 print('House wins with a hand value of', self.house.hand_value, 'against',
@@ -161,6 +171,7 @@ class PokerGame:
     def reset_deck_and_hands(self):
         # resets the deck of cards, the players hands and the players hands values to keep playing
         self.deck = Deck()
+        self.house.hand = []
         self.house.hand_value = 0
         for player in self.players:
             player.hand = []
