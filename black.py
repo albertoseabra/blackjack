@@ -30,7 +30,8 @@ class Deck:
         self.calculate_hand_value(player)
         self.deck.remove(card_dealt)
 
-    def card_value(self, card):
+    @staticmethod
+    def card_value(card):
         # returns the card value
         if card.value.isdigit():
             return int(card.value)
@@ -177,7 +178,8 @@ class PokerGame:
             player.hand = []
             player.hand_value = 0
 
-    def adding_players(self, game):
+    @staticmethod
+    def adding_players(game):
         while True:
             try:
                 num_players = int(input('how many human players will be playing the game?'))
