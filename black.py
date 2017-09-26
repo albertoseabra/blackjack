@@ -68,10 +68,10 @@ class Player:
         self.pot = 2*amount
 
     def display_hand(self):
-        print('your cards are:')
+        print(self.name, 'your cards are:')
         for card in self.hand:
             print(card.value, card.suit)
-        print('your cards value is:', self.hand_value)
+        print(self.name, 'your cards value is:', self.hand_value)
 
 
 class PokerGame:
@@ -80,7 +80,7 @@ class PokerGame:
     """
     def __init__(self):
         self.deck = Deck()
-        self.house = Player('house', 99999999)
+        self.house = Player('House', 99999999)
         self.players = []
 
     def add_player(self, name, chips):
@@ -110,7 +110,7 @@ class PokerGame:
         self.deck.deal(player)
         player.display_hand()
         while True:
-            if input('Do you want more cards?').lower() == 'y':
+            if input('Do you want more cards ' + player.name + ' ?').lower() == 'y':
                 self.deck.deal(player)
                 player.display_hand()
 
@@ -137,7 +137,7 @@ class PokerGame:
 
     def house_turn(self, best_hand):
         # houses turn, tries to beat the best hand, if goes over 21 returns False
-        print("It´s now houses turn to play.")
+        print("It´s now House turn to play.")
         self.deck.deal(self.house)
         while self.house.hand_value < best_hand:
             self.deck.deal(self.house)
@@ -156,7 +156,7 @@ class PokerGame:
         best_player, best_hand = self.check_best_hand()
 
         if best_hand == 0:
-            print('Everyone went over 21, house wins!!')
+            print('Everyone went over 21, House wins!!')
         else:
             if self.house_turn(best_hand):
                 print('House wins with a hand value of', self.house.hand_value, 'against',
@@ -182,16 +182,16 @@ class PokerGame:
     def adding_players(game):
         while True:
             try:
-                num_players = int(input('how many human players will be playing the game?'))
+                num_players = int(input('How many human players will be playing the game?'))
                 break
             except ValueError:
                 print('The number of players needs to be an integer!')
         for player in range(1, num_players + 1):
-            print('what is the name of player', player, '?')
+            print('What is the name of player', player, '?')
             player_name = input('>>>')
             while True:
                 try:
-                    player_chips = int(input('with how many chips will he start?'))
+                    player_chips = int(input('With how many chips will ' + player_name + ' start?'))
                     break
                 except ValueError:
                     print('The number of chips needs to be an integer!')
@@ -204,14 +204,14 @@ def main():
     game.adding_players(game)
 
     while True:
-        print('its time to start!!')
+        print('Its time to start!!')
         game.play_game()
         game.display_chips()
-        if input('that was fun! Want to play again?').lower() == 'y':
+        if input('That was fun! Want to play again?').lower() == 'y':
             game.reset_deck_and_hands()
             continue
         else:
-            print('bye')
+            print('Bye')
             break
 
 
